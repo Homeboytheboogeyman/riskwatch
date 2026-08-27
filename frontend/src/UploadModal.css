@@ -1,0 +1,158 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 20, 35, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    animation: fade-in 0.15s ease;
+  }
+  
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .modal-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.75rem 2rem;
+    width: 640px;
+    max-width: 92vw;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+  }
+  
+  .modal-header h2 {
+    font-family: "Lexend", sans-serif;
+    font-size: 1.3rem;
+    margin: 0;
+    color: var(--text);
+  }
+  
+  .modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-soft);
+    cursor: pointer;
+    line-height: 1;
+  }
+  
+  .modal-close:hover {
+    color: var(--text);
+  }
+  
+  .modal-note {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    margin-bottom: 1.25rem;
+    line-height: 1.5;
+  }
+  
+  .file-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .upload-btn {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.65rem 1.4rem;
+    border-radius: 40px;
+    border: none;
+    background: var(--gold);
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  
+  .upload-btn:hover:not(:disabled) {
+    background: var(--gold-deep);
+  }
+  
+  .upload-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .upload-error {
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: #fce9e6;
+    color: var(--high);
+    border-radius: 8px;
+    font-size: 0.85rem;
+  }
+  
+  .upload-result {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.25rem;
+  }
+  
+  .result-summary {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .result-error-count {
+    color: var(--moderate);
+  }
+  
+  .error-details {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-bottom: 1rem;
+  }
+  
+  .error-details summary {
+    cursor: pointer;
+    color: var(--text);
+    font-weight: 500;
+  }
+  
+  .error-details ul {
+    margin: 0.5rem 0 0;
+    padding-left: 1.25rem;
+  }
+  
+  .result-students h3 {
+    font-family: "Lexend", sans-serif;
+    font-size: 0.95rem;
+    margin: 0 0 0.75rem;
+  }
+  
+  .result-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+  }
+  
+  .result-table th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    color: var(--text-soft);
+    padding: 0.4rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  
+  .result-table td {
+    padding: 0.5rem 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }

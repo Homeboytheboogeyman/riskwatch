@@ -1,0 +1,184 @@
+.detail-shell {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--text-dim);
+  }
+  
+  .detail-page {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    animation: card-in 0.4s ease forwards;
+  }
+  
+  .back-btn {
+    align-self: flex-start;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-family: "Inter", sans-serif;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  
+  .back-btn:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  
+  .record-card {
+    background: linear-gradient(165deg, var(--panel-elevated) 0%, var(--panel) 65%);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 1.75rem 1.9rem;
+    box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .record-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .record-id-block {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .record-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-deep));
+    color: #1a1305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Fraunces", serif;
+    font-weight: 700;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+  }
+  
+  .record-id-block h1 {
+    font-family: "Fraunces", serif;
+    font-size: 1.5rem;
+    margin: 0 0 0.25rem;
+  }
+  
+  .record-sub {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+  }
+  
+  .risk-pill-lg {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  
+  .risk-pill-lg.tone-high { background: linear-gradient(120deg, rgba(255,107,88,0.24), rgba(255,107,88,0.1)); color: #ff8f7f; }
+  .risk-pill-lg.tone-moderate { background: linear-gradient(120deg, rgba(255,169,77,0.24), rgba(255,169,77,0.1)); color: #ffbd76; }
+  .risk-pill-lg.tone-low { background: linear-gradient(120deg, rgba(74,222,149,0.24), rgba(74,222,149,0.1)); color: #6ee8ab; }
+  
+  .record-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.25rem;
+  }
+  
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .meta-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-dim);
+  }
+  
+  .meta-value {
+    font-size: 0.95rem;
+  }
+  
+  .section-title {
+    font-family: "Fraunces", serif;
+    font-size: 1.15rem;
+    margin: 0 0 0.4rem;
+  }
+  
+  .section-note {
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    margin: 0 0 1.25rem;
+    max-width: 640px;
+  }
+  
+  .record-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .record-table thead th {
+    text-align: left;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-dim);
+    padding: 0.55rem 0.7rem;
+    border-bottom: 1px solid var(--line);
+  }
+  
+  .record-table td {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.85rem;
+    border-bottom: 1px solid var(--line);
+  }
+  
+  .factor-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .factor-row {
+    display: grid;
+    grid-template-columns: 110px 1fr 90px;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .factor-bar-track {
+    height: 10px;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    overflow: hidden;
+  }
+  
+  .factor-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.6s ease;
+  }
+  
+  .factor-bar-fill.tone-high { background: linear-gradient(90deg, var(--high), #ff9a8c); }
+  .factor-bar-fill.tone-moderate { background: linear-gradient(90deg, var(--moderate), #ffd08a); }
+  .factor-bar-fill.tone-low { background: linear-gradient(90deg, var(--low), #8ff0c0); }
