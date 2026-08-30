@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from app.models import Student, AcademicRecord
 from app import db
 from app.ml_service import predict_risk
+from app.ml_training import model_exists
 
 students_bp = Blueprint("students", __name__, url_prefix="/api/students")
 
@@ -20,6 +21,20 @@ def compute_averages(records):
     }
 
 
+def safe_predict(avgs):
+    """Only call the model if one actually exists on disk; otherwise return
+    an 'Unscored' placeholder instead of crashing (e.g. right after a reset)."""
+    if not avgs or not model_exists():
+        return None, "Unscored"
+    return predict_risk(
+        avgs["gpa"],
+        avgs["continuous_assessment"],
+        avgs["attendance_percent"],
+        avgs["assignment_submission_rate"],
+        avgs["lms_engagement_score"],
+    )
+
+
 @students_bp.route("/", methods=["GET"])
 def get_students():
     """Return all students with their average metrics and a real model-based risk prediction."""
@@ -28,17 +43,7 @@ def get_students():
     for s in students:
         records = AcademicRecord.query.filter_by(student_id=s.student_id).all()
         avgs = compute_averages(records)
-
-        if avgs:
-            probability, category = predict_risk(
-                avgs["gpa"],
-                avgs["continuous_assessment"],
-                avgs["attendance_percent"],
-                avgs["assignment_submission_rate"],
-                avgs["lms_engagement_score"],
-            )
-        else:
-            probability, category = None, "Unknown"
+        probability, category = safe_predict(avgs)
 
         result.append({
             "student_id": s.student_id,
@@ -75,16 +80,7 @@ def get_student_detail(student_id):
     } for r in records]
 
     avgs = compute_averages(records)
-    if avgs:
-        probability, category = predict_risk(
-            avgs["gpa"],
-            avgs["continuous_assessment"],
-            avgs["attendance_percent"],
-            avgs["assignment_submission_rate"],
-            avgs["lms_engagement_score"],
-        )
-    else:
-        probability, category = None, "Unknown"
+    probability, category = safe_predict(avgs)
 
     return jsonify({
         "student_id": student.student_id,
