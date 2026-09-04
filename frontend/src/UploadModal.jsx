@@ -1,6 +1,8 @@
 import { useState } from "react";
 import "./UploadModal.css";
 
+const MIN_LOADING_MS = 2500;
+
 function UploadModal({ onClose, onUploadComplete }) {
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
@@ -21,6 +23,7 @@ function UploadModal({ onClose, onUploadComplete }) {
 
     const formData = new FormData();
     formData.append("file", file);
+    const startTime = Date.now();
 
     try {
       const res = await fetch("http://127.0.0.1:5000/api/upload", {
@@ -31,6 +34,13 @@ function UploadModal({ onClose, onUploadComplete }) {
 
       if (!res.ok) {
         throw new Error(data.error || "Upload failed");
+      }
+
+      // Enforce a minimum loading duration so scoring reads as real work,
+      // not an instant/fake response, even when the request itself is fast.
+      const elapsed = Date.now() - startTime;
+      if (elapsed < MIN_LOADING_MS) {
+        await new Promise((resolve) => setTimeout(resolve, MIN_LOADING_MS - elapsed));
       }
 
       setResult(data);
@@ -57,15 +67,25 @@ function UploadModal({ onClose, onUploadComplete }) {
           Existing students are matched by student number; new ones are created automatically.
         </p>
 
-        <input type="file" accept=".csv" onChange={handleFileChange} className="file-input" />
+        {!uploading && (
+          <>
+            <input type="file" accept=".csv" onChange={handleFileChange} className="file-input" />
+            <button
+              className="upload-btn"
+              onClick={handleUpload}
+              disabled={!file}
+            >
+              Upload and Score
+            </button>
+          </>
+        )}
 
-        <button
-          className="upload-btn"
-          onClick={handleUpload}
-          disabled={!file || uploading}
-        >
-          {uploading ? "Processing…" : "Upload and Score"}
-        </button>
+        {uploading && (
+          <div className="training-screen">
+            <div className="training-spinner" />
+            <p className="mono">Scoring students against the trained model&hellip;</p>
+          </div>
+        )}
 
         {error && <div className="upload-error">{error}</div>}
 

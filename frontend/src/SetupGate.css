@@ -1,0 +1,116 @@
+.setup-gate {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    padding: 2rem;
+  }
+  
+  .setup-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    width: 560px;
+    max-width: 100%;
+  }
+  
+  .setup-card h1 {
+    font-family: "Lexend", sans-serif;
+    font-size: 1.6rem;
+    margin: 0 0 0.3rem;
+    color: var(--text);
+  }
+  
+  .setup-sub {
+    color: var(--text-soft);
+    font-size: 0.88rem;
+    margin: 0 0 1.75rem;
+  }
+  
+  .setup-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  
+  .setup-step {
+    display: flex;
+    gap: 1rem;
+    padding: 1.1rem;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--line);
+    opacity: 0.55;
+  }
+  
+  .setup-step.active,
+  .setup-step.done {
+    opacity: 1;
+  }
+  
+  .setup-step.active {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  
+  .step-number {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Lexend", sans-serif;
+    font-weight: 700;
+    flex-shrink: 0;
+    font-size: 0.9rem;
+  }
+  
+  .setup-step.locked .step-number {
+    background: var(--text-soft);
+  }
+  
+  .step-body h2 {
+    font-family: "Lexend", sans-serif;
+    font-size: 1rem;
+    margin: 0 0 0.25rem;
+    color: var(--text);
+  }
+  
+  .step-body p {
+    font-size: 0.82rem;
+    color: var(--text-soft);
+    margin: 0 0 0.75rem;
+  }
+  
+  .setup-btn {
+    font-family: "Inter", sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 40px;
+    border: none;
+    background: var(--gold);
+    color: white;
+    cursor: pointer;
+  }
+  
+  .setup-btn:hover {
+    background: var(--gold-deep);
+  }
+  
+  .step-done-label {
+    font-size: 0.8rem;
+    color: var(--low);
+    font-weight: 600;
+  }
+  
+  .step-locked-label {
+    font-size: 0.8rem;
+    color: var(--text-soft);
+    font-style: italic;
+  }

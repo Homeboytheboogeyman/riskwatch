@@ -18,6 +18,8 @@ import {
 import LoginScreen from "./LoginScreen";
 import StudentDetail from "./StudentDetail";
 import UploadModal from "./UploadModal";
+import TrainModel from "./TrainModel";
+import SetupGate from "./SetupGate";
 import "./App.css";
 
 const RISK_TONE = { High: "tone-high", Moderate: "tone-moderate", Low: "tone-low" };
@@ -62,6 +64,8 @@ function App() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [selectedStudentId, setSelectedStudentId] = useState(null);
   const [showUpload, setShowUpload] = useState(false);
+  const [showTrain, setShowTrain] = useState(false);
+  const [modelTrained, setModelTrained] = useState(null); // null = still checking
 
   const handleLogin = (selectedRole) => {
     localStorage.setItem("riskwatch_role", selectedRole);
@@ -89,11 +93,23 @@ function App() {
       });
   };
 
-  useEffect(() => {
+  const fetchTrainStatus = () => {
+    fetch("http://127.0.0.1:5000/api/train/status")
+      .then((res) => res.json())
+      .then((data) => setModelTrained(data.model_trained))
+      .catch(() => setModelTrained(false));
+  };
+
+  const refreshAll = () => {
     fetchStudents();
+    fetchTrainStatus();
+  };
+
+  useEffect(() => {
+    refreshAll();
   }, []);
 
-  // Risk now comes straight from the API's trained Random Forest model
+  // Risk comes straight from the API's trained Random Forest model
   // (risk_category / risk_probability), not a frontend threshold rule.
   const studentsWithRisk = useMemo(
     () => students.map((s) => ({ ...s, risk: s.risk_category || "Unknown" })),
@@ -165,12 +181,12 @@ function App() {
     return <LoginScreen onLogin={handleLogin} />;
   }
 
-  if (loading) {
+  if (loading || modelTrained === null) {
     return (
       <div className="shell">
         <div className="boot-screen">
           <div className="boot-pulse" />
-          <p className="mono">Loading student records&hellip;</p>
+          <p className="mono">Checking system status&hellip;</p>
         </div>
       </div>
     );
@@ -183,6 +199,19 @@ function App() {
           <p className="mono">Error: {error}</p>
         </div>
       </div>
+    );
+  }
+
+  // Gate the dashboard behind the two-step setup: a trained model AND
+  // at least one student loaded. Without both, there's nothing meaningful
+  // to show, so send the user to the setup flow instead of an empty dashboard.
+  if (!modelTrained || students.length === 0) {
+    return (
+      <SetupGate
+        modelTrained={modelTrained}
+        studentCount={students.length}
+        onRefresh={refreshAll}
+      />
     );
   }
 
@@ -238,9 +267,14 @@ function App() {
               <div className="topbar-status">
                 <span className="live-dot" />
                 <span className="mono">{students.length} tracked</span>
-                <button className="upload-trigger-btn" onClick={() => setShowUpload(true)}>
-                  Upload CSV
-                </button>
+                <div className="topbar-actions">
+                  <button className="upload-trigger-btn" onClick={() => setShowUpload(true)}>
+                    Add Students
+                  </button>
+                  <button className="upload-trigger-btn ghost" onClick={() => setShowTrain(true)}>
+                    Retrain Model
+                  </button>
+                </div>
               </div>
             </header>
 
@@ -465,7 +499,13 @@ function App() {
       {showUpload && (
         <UploadModal
           onClose={() => setShowUpload(false)}
-          onUploadComplete={fetchStudents}
+          onUploadComplete={refreshAll}
+        />
+      )}
+      {showTrain && (
+        <TrainModel
+          onClose={() => setShowTrain(false)}
+          onTrained={refreshAll}
         />
       )}
     </div>
